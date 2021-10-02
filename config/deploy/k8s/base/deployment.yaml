@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: botw-web
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: botw-web
+  template:
+    metadata:
+      labels:
+        component: botw-web
+    spec:
+      containers:
+        - name: server
+          image: roonglit/botw
+          ports:
+            - containerPort: 3000
+          command: ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+          env:
+            - name: HOST
+              value: http://localhost:3000
+            - name: RAILS_ENV
+              value: production
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "false"
+            - name: DATABASE_URL
+              value: postgres://data-express-do-user-9689831-0.b.db.ondigitalocean.com:25060/botw
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: password
+            - name: REDIS_URL
+              value: redis://redis-cluster-ip-service:6379/4
+
+      initContainers:
+        - name: database-migration
+          image: roonglit/botw
+          ports:
+            - containerPort: 3000
+          command: ["bundle", "exec", "rails", "db:migrate"]
+          env:
+            - name: HOST
+              value: http://localhost:3000
+            - name: RAILS_ENV
+              value: production
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "false"
+            - name: DATABASE_URL
+              value: postgres://data-express-do-user-9689831-0.b.db.ondigitalocean.com:25060/botw
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: password
+            - name: REDIS_URL
+              value: redis://redis-cluster-ip-service:6379/4
+
+      imagePullSecrets:
+        - name: roonglit
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: botw-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: botw-worker
+  template:
+    metadata:
+      labels:
+        component: botw-worker
+    spec:
+      containers:
+        - name: server
+          image: roonglit/botw
+          command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          env:
+            - name: HOST
+              value: http://localhost:3000
+            - name: RAILS_ENV
+              value: production
+            - name: RAILS_SERVE_STATIC_FILES
+              value: "true"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "false"
+            - name: DATABASE_URL
+              value: postgres://data-express-do-user-9689831-0.b.db.ondigitalocean.com:25060/botw
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: password
+            - name: REDIS_URL
+              value: redis://redis-cluster-ip-service:6379/4
+
+      imagePullSecrets:
+        - name: roonglit

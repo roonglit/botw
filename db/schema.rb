@@ -2,8 +2,8 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
@@ -28,11 +28,10 @@ ActiveRecord::Schema.define(version: 2018_10_03_072918) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "authenticatable_type", null: false
-    t.bigint "authenticatable_id", null: false
-    t.index ["authenticatable_type", "authenticatable_id"], name: "index_accounts_on_authenticatable_type_and_authenticatable_id"
+    t.bigint "users_id", null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
+    t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|

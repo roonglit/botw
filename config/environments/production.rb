@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -39,6 +39,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
+
   # To use ActiveStorage with S3 remove the above and comment in the following line:
   # config.active_storage.service = :amazon
 
@@ -48,7 +49,7 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -62,7 +63,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "rails_new_production"
+  # config.active_job.queue_name_prefix = "botw_production"
 
   config.action_mailer.perform_caching = false
 
@@ -87,19 +88,13 @@ Rails.application.configure do
   # More compact logging output
   # See: https://github.com/roidrage/lograge
   config.lograge.enabled = true
-  config.lograge.custom_options = lambda do |event|
-    exceptions = %w[controller action format id]
-    {
-      time: event.time,
-      params: event.payload[:params].except(*exceptions),
-    }
-  end
-  config.lograge.custom_payload do |controller|
-    if controller.current_account
-      {
-        account_id: controller.current_account.id,
-      }
+  config.lograge.custom_options =
+    lambda do |event|
+      exceptions = %w[controller action format id]
+      { time: event.time, params: event.payload[:params].except(*exceptions) }
     end
+  config.lograge.custom_payload do |controller|
+    { account_id: controller.current_account.id } if controller.current_account
   end
 
   # Do not dump schema after migrations.

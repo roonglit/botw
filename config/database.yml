@@ -21,6 +21,8 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   # TODO: Configure DATABASE_URL in config/application.yml
   url: <%= ENV["DATABASE_URL"] %>
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
   # NOTE: In some cases we'll use RAILS_MAX_THREADS as the sidekiq concurrency.
   # Indeed, sidekiq will use this value internally by default if it is set and
   # concurrency isn't explicitly configured. However, this means the worker
@@ -44,7 +46,7 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: rails_new
+  #username: botw
 
   # The password associated with the postgres role (username).
   #password:
@@ -72,6 +74,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] || 'postgres://localhost:5432/botw_test' %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

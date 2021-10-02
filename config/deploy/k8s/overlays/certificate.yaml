@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: botw-life-certification
+  namespace: default
+spec:
+  secretName: botw-life-certificate
+  issuerRef:
+    name: letsencrypt-production
+  commonName: botw.life
+  dnsNames:
+    - botw.life

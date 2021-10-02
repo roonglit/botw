@@ -52,3 +52,4 @@ Gemfile.dev.lock
 
 # asdf-vm
 .tool-versions
+database_secrets.yaml

@@ -1,14 +1,14 @@
-# rails_new
+# botw
 
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Save%20hours%20of%20your%E2%8F%B1%EF%B8%8F%20with%20this%20template%20for%20building%20modern%20%23Rails%20apps%20%F0%9F%92%AF%F0%9F%94%A5%20&url=https://github.com/lockstep/rails_new&via=locksteplabs&hashtags=rubyonrails)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Save%20hours%20of%20your%E2%8F%B1%EF%B8%8F%20with%20this%20template%20for%20building%20modern%20%23Rails%20apps%20%F0%9F%92%AF%F0%9F%94%A5%20&url=https://github.com/lockstep/botw&via=locksteplabs&hashtags=rubyonrails)
 
-![Build Status](https://circleci.com/gh/lockstep/rails_new.svg?style=shield)
+![Build Status](https://circleci.com/gh/lockstep/botw.svg?style=shield)
 
 A thoughtfully designed template for building modern Rails apps 🔥
 
 Get started on your new app within minutes instead of hours 🚗💨
 
-- [rails_new](#railsnew)
+- [botw](#Botw)
   - [Getting started](#getting-started)
   - [Optional configuration options](#optional-configuration-options)
   - [Environment variables](#environment-variables)
@@ -54,7 +54,7 @@ As an alternative to running the script you can perform all of the following ste
 1. ESLint is preconfigured for modern JS with React support (using [Prettier](https://prettier.io)). If you want to use it install packages with `npm install` / `yarn [install]`, otherwise remove `.eslintrc` and `package.json`.
 1. If you don't plan on tracking the template, you can remove the remote, otherwise rename it and add your new remote as appropriate.:
    ```shell
-   $ git remote rename origin rails_new
+   $ git remote rename origin botw
    $ git remote add origin ...
    ```
 
@@ -65,7 +65,7 @@ As an alternative to running the script you can perform all of the following ste
   1. Set `SENTRY_DSN_BACKEND` and `SENTRY_DSN_FRONTEND` environment variables. Both are optional - errors will only be reported if the respective variable is set.
 - [New Relic](https://newrelic.com) is pre configured in `config/newrelic.yml`, but you need to comment in the environment variables for it work on Heroku (lines 10 and 17).
 - The app is preconfigured for Google Analytics, just add `GOOGLE_ANALYTICS_ID` to the environment.
-- We prefer to use vanilla Sidekiq for worker/queue management. If you prefer to use ActiveJob please see the configuration/options that were removed in [59cf38d](https://github.com/lockstep/rails_new/commit/59cf38d5872eb8bd9267a5c0ae95aa39396c7130).
+- We prefer to use vanilla Sidekiq for worker/queue management. If you prefer to use ActiveJob please see the configuration/options that were removed in [59cf38d](https://github.com/lockstep/botw/commit/59cf38d5872eb8bd9267a5c0ae95aa39396c7130).
 
 ## Environment variables
 
@@ -193,7 +193,7 @@ React support has been preconfigured together with `react-rails`.
 When creating a new component you want to mount in the view, place it under the `views` folder. `react-rails` will perform module lookup relative to that folder and automatically require it under the hood so it gets included in the `application` pack. For example, calling the following helper in your view file:
 
 ```ruby
-react_component("dashboard/properties_list")
+react_component('dashboard/properties_list')
 ```
 
 will require `views/dashboard/properties_list` and mount it in place of the helper element. See the [docs](https://github.com/reactjs/react-rails) for details about working with `react-rails`.
@@ -326,10 +326,10 @@ Start the environment without (re-)building images (add `-d` to daemonize):
 
 ```sh
 $ docker-compose up
-Starting rails_new_postgres_1 ... done
-Starting rails_new_redis_1    ... done
-Starting rails_new_app_1      ... done
-Attaching to rails_new_postgres_1, rails_new_redis_1, rails_new_app_1
+Starting botw_postgres_1 ... done
+Starting botw_redis_1    ... done
+Starting botw_app_1      ... done
+Attaching to botw_postgres_1, botw_redis_1, botw_app_1
 [...]
 ```
 
@@ -337,22 +337,22 @@ Stop the environment but keep the containers:
 
 ```sh
 $ docker-compose stop
-Stopping rails_new_app_1      ... done
-Stopping rails_new_postgres_1 ... done
-Stopping rails_new_redis_1    ... done
+Stopping botw_app_1      ... done
+Stopping botw_postgres_1 ... done
+Stopping botw_redis_1    ... done
 ```
 
 Stop the environment and remove the containers:
 
 ```sh
 $ docker-compose down
-Stopping rails_new_app_1      ... done
-Stopping rails_new_postgres_1 ... done
-Stopping rails_new_redis_1    ... done
-Removing rails_new_app_1      ... done
-Removing rails_new_postgres_1 ... done
-Removing rails_new_redis_1    ... done
-Removing network rails_new_default
+Stopping botw_app_1      ... done
+Stopping botw_postgres_1 ... done
+Stopping botw_redis_1    ... done
+Removing botw_app_1      ... done
+Removing botw_postgres_1 ... done
+Removing botw_redis_1    ... done
+Removing network botw_default
 ```
 
 Execute a command inside the `app` container:
@@ -366,7 +366,7 @@ Execute a command inside the `app` container that needs env variables:
 
 ```sh
 $ docker-compose exec --env RAILS_ENV=test app rails db:setup
-Created database 'rails_new_test'
+Created database 'botw_test'
 -- enable_extension("plpgsql")
    -> 0.0251s
 -- create_table("users", {:force=>:cascade})
