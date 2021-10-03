@@ -12,5 +12,41 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@master
 
+      - name: Set up credentials
+        run: |
+          echo ${{ secrets.MASTER_KEY }} > config/master.key
+
       - name: Build image
         run: docker build -t ${IMAGE}:${GITHUB_RUN_NUMBER} .
+
+      - name: Login to docker hub
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push to docker hub
+        uses: actions-hub/docker@master
+        with:
+          args: push ${IMAGE}:${GITHUB_RUN_NUMBER}
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save ad9f25f8-412f-410a-99fd-03152a2c99eb
+
+      - name: Set up kustomize
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize
+
+      - name: Deploy
+        run: |-
+          cd config/deploy/k8s
+          ./../../../kustomize edit set image $IMAGE=$IMAGE:$GITHUB_RUN_NUMBER
+          ./../../../kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment/botw-web
+          kubectl get services -o wide
