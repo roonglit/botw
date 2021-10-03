@@ -30,8 +30,7 @@ module.exports = function (api) {
           loose: true,
         },
       ],
-      "@babel/preset-react",
-      "@babel/preset-typescript",
+    
     ],
     plugins: [
       "babel-plugin-macros",
@@ -65,16 +64,9 @@ module.exports = function (api) {
           async: false,
         },
       ],
-      isProductionEnv && [
-        "babel-plugin-transform-react-remove-prop-types",
-        {
-          removeImport: true,
-        },
-      ],
       isTestEnv && "babel-plugin-dynamic-import-node",
       isTestEnv && "@babel/plugin-transform-modules-commonjs",
       "@babel/plugin-proposal-nullish-coalescing-operator",
-      "react-hot-loader/babel",
     ].filter(Boolean),
   };
 };

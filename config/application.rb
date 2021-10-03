@@ -27,7 +27,7 @@ module Botw
     config.active_job.queue_adapter = :sidekiq
 
     # React-Rails config
-    config.react.camelize_props = true
+    # config.react.camelize_props = true
 
     # Configure generators, see: http://guides.rubyonrails.org/generators.html
     config.generators do |g|
@@ -37,19 +37,19 @@ module Botw
 
       # Don't generate helpers, JS, CSS or view specs for controllers
       # See: http://guides.rubyonrails.org/generators.html
-      g.helper      false
+      g.helper false
       g.javascripts false
       g.stylesheets false
-      g.view_specs  false
+      g.view_specs false
 
       if ENV['BLOCK_HTTP_TRACE'].in?(ENV_TRUTHY)
         config.middleware.use Rack::RejectTrace
       end
 
       if ENV['RAILS_LOG_TO_STDOUT'].in?(ENV_TRUTHY)
-        logger           = ActiveSupport::Logger.new($stdout)
+        logger = ActiveSupport::Logger.new($stdout)
         logger.formatter = config.log_formatter
-        config.logger    = ActiveSupport::TaggedLogging.new(logger)
+        config.logger = ActiveSupport::TaggedLogging.new(logger)
       end
     end
 

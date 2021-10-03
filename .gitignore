@@ -53,3 +53,10 @@ Gemfile.dev.lock
 # asdf-vm
 .tool-versions
 database_secrets.yaml
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
